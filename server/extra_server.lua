@@ -1,8 +1,7 @@
-local QBCore = exports['qb-core']:GetCoreObject()
 WorldData = Config.PresetWorlds or {}
 GlobalState.currentBlackout = false
 
-QBCore.Functions.CreateCallback('ParadoxWorld:server:GetDimmensionData', function(source, cb, WorldID)
+lib.callback.register('ParadoxWorld:server:GetDimmensionData', function(source, cb, WorldID)
     cb(WorldData)
 end)
 
@@ -28,19 +27,22 @@ RegisterCommand('blackout', function(source, args)
                 if source == 0 then 
                     print('[^5WORLD SYNC SYSTEM^0] Blackout enabled:', GlobalState.currentBlackout)
                 else
-                    TriggerClientEvent('QBCore:Notify', source, 'Blackout enabled: '..GlobalState.currentBlackout, 'error')
+                    --TriggerClientEvent('QBCore:Notify', source, 'Blackout enabled: '..GlobalState.currentBlackout, 'error')
+                    TriggerClientEvent('ox_lib:defaultNotify', source, 'sync', 'Blackout enabled: '..GlobalState.currentBlackout, 'left-accent', 'error')
                 end
             else
                 if not WorldData[worldid] then WorldData[worldid] = {} end
                 WorldData[worldid].blackout = args[1]
                 TriggerClientEvent('ParadoxWorld:client:updateBucketData', -1, worldid, WorldData)
-                TriggerClientEvent('QBCore:Notify', source, 'Blackout enabled: '..WorldData[worldid].blackout..' in dimmension: '..worldid, 'success')
+                --TriggerClientEvent('QBCore:Notify', source, 'Blackout enabled: '..WorldData[worldid].blackout..' in dimmension: '..worldid, 'success')
+                TriggerClientEvent('ox_lib:defaultNotify', source, 'sync', 'Blackout enabled: '..WorldData[worldid].blackout..' in dimmension: '..worldid, 'left-accent', 'success')
             end
         else
             if source == 0 then 
                 print('[^5WORLD SYNC SYSTEM^0] You must specify an argument (true or false)')
             else
-                TriggerClientEvent('QBCore:Notify', source, 'You must specify an argument (true or false)', 'error')
+                --TriggerClientEvent('QBCore:Notify', source, 'You must specify an argument (true or false)', 'error')
+                TriggerClientEvent('ox_lib:defaultNotify', source, 'sync', 'You must specify an argument (true or false)', 'left-accent', 'error')
             end
         end
     end
